@@ -38,7 +38,7 @@ public class MemberController {
         return new ResponseEntity<>("사용자 삭제", HttpStatus.OK);
     }
 
-    // 역할 선택 
+    // 역할 선택
     @PatchMapping("/api/members/{memberId}/role")
     public ResponseEntity<String> chooseRole(@PathVariable Long memberId,
                                              @RequestBody ChooseRoleRequestDto dto) {
