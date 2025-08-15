@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import com.likelion.neezybackend.oauth.api.dto.KakaoUserInfo;
 
 import java.net.URI;
 import java.util.Map;
@@ -124,7 +125,7 @@ public class AuthLoginService {
     }
 
     // 액세스 토큰 -> 카카오 유저 정보
-    public com.likelion.neezybackend.oauth.api.dto.KakaoUserInfo getKakaoUserInfo(String accessToken){
+    public KakaoUserInfo getKakaoUserInfo(String accessToken){
         String url = "https://kapi.kakao.com/v2/user/me";
 
         HttpHeaders headers = new HttpHeaders();
