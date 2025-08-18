@@ -7,10 +7,8 @@ import com.likelion.neezybackend.member.domain.Member;
 import com.likelion.neezybackend.member.domain.Role;
 import com.likelion.neezybackend.member.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
