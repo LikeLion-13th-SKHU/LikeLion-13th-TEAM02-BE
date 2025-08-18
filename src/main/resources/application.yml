@@ -2,18 +2,43 @@ spring:
   profiles:
     active: prod
 
+
+  datasource:
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: ${spring.datasource.driver-class-name}
+
   jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-        format_sql: true
+        format_sql: false
+        use_sql_comments: true
         show_sql: true
-    open-in-view: false
+  open-in-view: false
 
 logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql: trace
+
+jwt:
+  secret: ${JWT_SECRET}   # 운영은 환경변수/시크릿에서 주입
+
+token:
+  expire:
+    time: ${JWT_ACCESS_TOKEN_VALIDITY_IN_MILLISECONDS:1800000}  # 없으면 기본 30분
+
+# 구글 (운영 환경변수에서 주입)
+client-id: ${GOOGLE_CLIENT_ID}
+client-secret: ${GOOGLE_CLIENT_SECRET}
+
+# 카카오 (운영 환경변수에서 주입 권장)
+kakao:
+  client-id: ${KAKAO_CLIENT_ID}
+  redirect-uri: http://localhost:8080/login/oauth2/code/kakao
