@@ -188,4 +188,8 @@ public class AuthLoginService {
 
         throw new RuntimeException("유저 정보를 가져오는데 실패했습니다.");
     }
-}
+
+    public void logout() {
+
+        }
+    }

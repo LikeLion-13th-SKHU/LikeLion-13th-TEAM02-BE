@@ -28,6 +28,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+
+                        // Swagger 경로 허용
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml"
+                        ).permitAll()
+
                         .requestMatchers("/login/oauth2/**").permitAll()
                         .requestMatchers("/members/**", "/posts/**").permitAll()
                         .anyRequest().authenticated()
