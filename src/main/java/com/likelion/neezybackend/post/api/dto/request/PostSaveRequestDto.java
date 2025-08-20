@@ -7,5 +7,6 @@ public record PostSaveRequestDto(
         String contents,
         String region,     // 지역 (필수 입력)
         Category category
+
 ) {
 }
