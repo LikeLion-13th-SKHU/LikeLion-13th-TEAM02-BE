@@ -26,6 +26,16 @@ public class Post {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String contents;
 
+    // 지역 필드 추가 (프론트에서 전달받아 저장)
+    @Column(nullable = false, length = 100)
+    private String region; // 예: "온수동", "강남구"
+
+    // 카테고리 필드 추가 (Enum)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private Category category;
+
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -54,12 +64,17 @@ public class Post {
         if (postUpdateRequestDto.contents() != null && !postUpdateRequestDto.contents().isBlank()) {
             this.contents = postUpdateRequestDto.contents();
         }
+        if (postUpdateRequestDto.category() != null) {
+            this.category = postUpdateRequestDto.category();
+        }
     }
 
     @Builder
-    private Post(String title, String contents, Member member) {
+    private Post(String title, String contents, String region, Category category, Member member) {
         this.title = title;
         this.contents = contents;
+        this.region = region;
+        this.category = category;
         this.member = member;
     }
 }

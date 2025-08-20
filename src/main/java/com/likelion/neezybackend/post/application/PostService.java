@@ -28,16 +28,20 @@ public class PostService {
         var post = Post.builder()
                 .title(dto.title())
                 .contents(dto.contents())
+                .region(dto.region())          // region 추가
+                .category(dto.category())      // category 추가
                 .member(member)
                 .build();
 
         postRepository.save(post);
     }
 
-    // 전체 최신순
-    public PostListResponseDto findAllLatest() {
-        var posts = postRepository.findAllByOrderByCreatedAtDesc();
-        var items = posts.stream().map(PostInfoResponseDto::from).toList();
+    // 특정 지역 최신순 조회
+    public PostListResponseDto findAllByRegionLatest(String region) {
+        var posts = postRepository.findAllByRegionOrderByCreatedAtDesc(region);
+        var items = posts.stream()
+                .map(PostInfoResponseDto::from)
+                .toList();
         return PostListResponseDto.from(items);
     }
 

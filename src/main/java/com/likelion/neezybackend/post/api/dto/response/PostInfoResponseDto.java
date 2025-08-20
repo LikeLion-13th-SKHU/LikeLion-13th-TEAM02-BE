@@ -1,5 +1,6 @@
 package com.likelion.neezybackend.post.api.dto.response;
 
+import com.likelion.neezybackend.post.domain.Category;
 import com.likelion.neezybackend.post.domain.Post;
 import lombok.Builder;
 
@@ -12,6 +13,8 @@ public record PostInfoResponseDto(
         String writer,
         String title,
         String contents,
+        String region,
+        Category category,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
@@ -22,6 +25,8 @@ public record PostInfoResponseDto(
                 .writer(post.getMember().getName())
                 .title(post.getTitle())
                 .contents(post.getContents())
+                .region(post.getRegion())
+                .category(post.getCategory())
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .build();

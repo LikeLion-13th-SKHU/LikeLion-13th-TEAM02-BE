@@ -85,7 +85,7 @@ public class AuthLoginService {
         );
 
         String jwt = jwtTokenProvider.generateToken(member);
-        return new Token(jwt);
+        return new Token(jwt, member.getMemberId());
     }
 
     // --- Kakao 설정 (클래스 멤버로 추가) ---
@@ -165,7 +165,7 @@ public class AuthLoginService {
                 ));
 
         String jwt = jwtTokenProvider.generateToken(member);
-        return new Token(jwt);
+        return new Token(jwt, member.getMemberId()); // jwt토큰과 멤버아이디를 같이 반환
     }
 
 
