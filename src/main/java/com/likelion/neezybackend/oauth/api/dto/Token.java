@@ -12,5 +12,4 @@ public class Token {
 
     @SerializedName("access_token")
     private String accessToken;
-    private Long memberId; // memberId도 같이 반환하게
 }
