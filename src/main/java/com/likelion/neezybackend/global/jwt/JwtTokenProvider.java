@@ -66,7 +66,6 @@ public class JwtTokenProvider {
                 .claim(AUTHORITIES_KEY, member.getRole().toString()) // 추가된 권한 Claim
                 .issuedAt(now)  // 발행 시간
                 .expiration(expireDate) // 만료 시간
-                .signWith(key, Jwts.SIG.HS256)  // ㅏ토큰 암호화
                 .compact(); // 압축, 서명 후 토큰 생성
     }
 

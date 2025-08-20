@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private final PostService postService;
 
+
     // 게시글 조회 (전체 최신순)
     @Operation(
             summary = "게시글 전체 조회",
@@ -38,26 +39,7 @@ public class PostController {
                                           "posts": [
                                             {
                                               "postId": 1,
-                                              "title": "첫 번째 글",
-                                              "content": "내용입니다",
-                                              "author": "김멋사"
-                                            },
-                                            {
-                                              "postId": 2,
-                                              "title": "두 번째 글",
-                                              "content": "내용입니다",
-                                              "author": "이멋사"
-                                            }
-                                          ]
-                                        }
-                                    """)
-                            )
-                    )
-            }
-    )
-    @GetMapping
-    public ResponseEntity<PostListResponseDto> findAllLatest() {
-        PostListResponseDto body = postService.findAllLatest();
+
         return ResponseEntity.ok(body);
     }
 
@@ -74,7 +56,6 @@ public class PostController {
                             examples = @ExampleObject(value = """
                                 {
                                   "title": "새 글 제목",
-                                  "content": "새 글 내용"
                                 }
                             """)
                     )
@@ -105,7 +86,7 @@ public class PostController {
                             examples = @ExampleObject(value = """
                                 {
                                   "title": "수정된 제목",
-                                  "content": "수정된 내용"
+
                                 }
                             """)
                     )
