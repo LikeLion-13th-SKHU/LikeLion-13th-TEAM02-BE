@@ -1,5 +1,6 @@
 package com.likelion.neezybackend.post.api.dto.response;
 
+
 import com.likelion.neezybackend.post.domain.Post;
 import lombok.Builder;
 
@@ -12,6 +13,7 @@ public record PostInfoResponseDto(
         String writer,
         String title,
         String contents,
+
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {

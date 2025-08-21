@@ -54,12 +54,6 @@ public class Post {
         if (postUpdateRequestDto.contents() != null && !postUpdateRequestDto.contents().isBlank()) {
             this.contents = postUpdateRequestDto.contents();
         }
-    }
-
-    @Builder
-    private Post(String title, String contents, Member member) {
-        this.title = title;
-        this.contents = contents;
         this.member = member;
     }
 }
