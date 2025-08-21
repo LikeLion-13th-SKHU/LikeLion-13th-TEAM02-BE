@@ -6,6 +6,5 @@ public record PostUpdateRequestDto(
         String title,
         String contents,
         Category category
-
 ) {
 }
