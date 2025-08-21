@@ -12,4 +12,7 @@ public class Token {
 
     @SerializedName("access_token")
     private String accessToken;
+
+    Long memberId;   // 추가
+
 }
