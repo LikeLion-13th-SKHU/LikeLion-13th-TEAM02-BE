@@ -28,16 +28,13 @@ public class PostService {
         var post = Post.builder()
                 .title(dto.title())
                 .contents(dto.contents())
+
                 .member(member)
                 .build();
 
         postRepository.save(post);
     }
 
-    // 전체 최신순
-    public PostListResponseDto findAllLatest() {
-        var posts = postRepository.findAllByOrderByCreatedAtDesc();
-        var items = posts.stream().map(PostInfoResponseDto::from).toList();
         return PostListResponseDto.from(items);
     }
 
