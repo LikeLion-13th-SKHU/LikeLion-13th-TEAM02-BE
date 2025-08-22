@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.likelion.neezybackend.oauth.api.dto.KakaoUserInfo;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -42,23 +43,24 @@ public class AuthLoginService {
     private final JwtTokenProvider jwtTokenProvider;
 
     public String getGoogleAccessToken(String code) {
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> params = Map.of(
-                "code", code,
-                "scope", "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
-                "client_id", GOOGLE_CLIENT_ID,
-                "client_secret", GOOGLE_CLIENT_SECRET,
-                "redirect_uri", GOOGLE_REDIRECT_URI,
-                "grant_type", "authorization_code"
-        );
+        RestTemplate rt = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(GOOGLE_TOKEN_URL, params, String.class);
+        org.springframework.util.MultiValueMap<String,String> body = new org.springframework.util.LinkedMultiValueMap<>();
+        body.add("code", code);
+        body.add("client_id", GOOGLE_CLIENT_ID);
+        body.add("client_secret", GOOGLE_CLIENT_SECRET);
+        body.add("redirect_uri", GOOGLE_REDIRECT_URI); // 기존 값 그대로 사용
+        body.add("grant_type", "authorization_code");  // scope 파라미터는 필요 없음
 
-        if(responseEntity.getStatusCode().is2xxSuccessful()) {
-            String json = responseEntity.getBody();
-            Gson gson = new Gson();
+        ResponseEntity<String> res =
+                rt.postForEntity(GOOGLE_TOKEN_URL, new HttpEntity<>(body, headers), String.class);
 
-            return gson.fromJson(json, Token.class)
+        if(res.getStatusCode().is2xxSuccessful()) {
+            return new Gson()
+                    .fromJson(res.getBody(), Token.class)
                     .getAccessToken();
         }
         throw new RuntimeException("구글 엑세스 토큰을 가져오는데 실패했습니다.");
