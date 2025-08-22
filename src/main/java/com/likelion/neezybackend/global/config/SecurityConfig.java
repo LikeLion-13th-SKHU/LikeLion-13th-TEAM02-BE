@@ -37,7 +37,8 @@ public class SecurityConfig {
                         ).permitAll()
 
                         .requestMatchers("/login/oauth2/**").permitAll()
-                        .requestMatchers("/members/**", "/posts/**").permitAll()
+                        .requestMatchers("/api/members/**", "/api/posts/**").permitAll()
+                        .requestMatchers("/api/rankings/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // 한 번만 등록
