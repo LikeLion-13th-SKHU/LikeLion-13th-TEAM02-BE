@@ -22,11 +22,10 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private final PostService postService;
 
-
-    // 게시글 조회 (전체 최신순)
+    // 게시글 조회 (지역별 최신순)
     @Operation(
-            summary = "게시글 전체 조회",
-            description = "등록되어 있는 모든 게시글 정보를 최신순으로 조회한다",
+            summary = "지역별 게시글 조회",
+            description = "지역별로 게시글 정보를 최신순으로 조회한다",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -39,7 +38,34 @@ public class PostController {
                                           "posts": [
                                             {
                                               "postId": 1,
-
+                                              "writer": "김멋사",
+                                              "title": "이쁜 카페",
+                                              "contents": "분위기 있고 좋은 카페있으면 좋겠네요",
+                                              "region": "서울특별시 온수동",
+                                              "category": "CAFE",
+                                              "createdAt": "2025-08-18T12:00:00",
+                                              "updatedAt": "2025-08-18T12:10:00"
+                                            },
+                                            {
+                                              "postId": 2,
+                                              "writer": "김멋사",
+                                              "title": "PC방",
+                                              "contents": "동네에 PC방이 필요해요",
+                                              "region": "서울특별시 온수동",
+                                              "category": "PC_ROOM",
+                                              "createdAt": "2025-08-18T12:00:00",
+                                              "updatedAt": "2025-08-18T12:10:00"
+                                            }
+                                          ]
+                                        }
+                                    """)
+                            )
+                    )
+            }
+    )
+    @GetMapping("/region/{region}")
+    public ResponseEntity<PostListResponseDto> findAllByRegion(@PathVariable String region) {
+        PostListResponseDto body = postService.findAllByRegionLatest(region);
         return ResponseEntity.ok(body);
     }
 
@@ -56,6 +82,9 @@ public class PostController {
                             examples = @ExampleObject(value = """
                                 {
                                   "title": "새 글 제목",
+                                  "contents": "새 글 내용",
+                                  "region": "서울특별시 온수동",
+                                  "category": "BOWLING"
                                 }
                             """)
                     )
@@ -86,7 +115,8 @@ public class PostController {
                             examples = @ExampleObject(value = """
                                 {
                                   "title": "수정된 제목",
-
+                                  "contents": "수정된 내용",
+                                  "category": "PC_ROOM"
                                 }
                             """)
                     )
