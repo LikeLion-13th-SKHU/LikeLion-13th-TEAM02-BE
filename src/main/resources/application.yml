@@ -41,4 +41,4 @@ client-secret: ${GOOGLE_CLIENT_SECRET}
 # 카카오 (운영 환경변수에서 주입 권장)
 kakao:
   client-id: ${KAKAO_CLIENT_ID}
-  redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+  redirect-uri: ${KAKAO_REDIRECT_URI:http://localhost:8080/login/oauth2/code/kakao}
