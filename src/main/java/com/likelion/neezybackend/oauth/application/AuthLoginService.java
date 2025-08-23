@@ -37,7 +37,7 @@ public class AuthLoginService {
     // 구글 인증 코드를 엑세스 토큰으로 교환하는 API 주소
     private final String GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
     // OAuth 인증 후 구글이 리디렉션할 URI
-    private final String GOOGLE_REDIRECT_URI = "http://localhost:8080/login/oauth2/code/google";
+    private final String GOOGLE_REDIRECT_URI = "http://localhost:5173/login/oauth2/code/google";
 
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
