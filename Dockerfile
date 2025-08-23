@@ -4,7 +4,7 @@ FROM amazoncorretto:21
 # JAR 파일 경로를 ARG로 받음 (빌드 시 사용)
 ARG JAR_FILE=build/libs/*.jar
 
-# 작업 디렉토리 생성 (선택이지만 권장)
+# 작업 디렉토리 생성
 WORKDIR /app
 
 # JAR 파일을 복사하면서 이름을 고정

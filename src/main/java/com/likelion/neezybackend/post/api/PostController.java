@@ -135,6 +135,7 @@ public class PostController {
         return ResponseEntity.ok("게시물 수정");
     }
 
+
     // 게시물 삭제 (작성자만)
     @Operation(
             summary = "게시글 삭제",

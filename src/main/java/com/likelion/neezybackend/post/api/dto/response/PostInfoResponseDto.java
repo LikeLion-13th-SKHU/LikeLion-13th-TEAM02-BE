@@ -2,6 +2,7 @@ package com.likelion.neezybackend.post.api.dto.response;
 
 import com.likelion.neezybackend.post.domain.Category;
 import com.likelion.neezybackend.post.domain.Post;
+import com.likelion.neezybackend.region.domain.Region;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ public record PostInfoResponseDto(
         String writer,
         String title,
         String contents,
-        String region,
+        Region region,
         Category category,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
