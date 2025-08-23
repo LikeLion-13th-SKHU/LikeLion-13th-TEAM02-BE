@@ -16,7 +16,6 @@ import com.likelion.neezybackend.oauth.api.dto.KakaoUserInfo;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -28,16 +27,20 @@ public class AuthLoginService {
 //        System.out.println("registrationId = " + registrationId);
 //    }
 
-    @Value("${client-id}") // import 시 lombok으로 하면 안됨
+    @Value("${oauth.google.client-id}")
     private String GOOGLE_CLIENT_ID;
 
-    @Value("${client-secret}")
+    @Value("${oauth.google.client-secret}")
     private String GOOGLE_CLIENT_SECRET;
 
-    // 구글 인증 코드를 엑세스 토큰으로 교환하는 API 주소
-    private final String GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
     // OAuth 인증 후 구글이 리디렉션할 URI
-    private final String GOOGLE_REDIRECT_URI = "http://localhost:5173/login/oauth2/code/google";
+    @Value("${oauth.google.redirect-uri}")
+    private String GOOGLE_REDIRECT_URI;
+
+    // 구글 인증 코드를 엑세스 토큰으로 교환하는 API 주소
+    @Value("${oauth.google.token-url}")
+    private String GOOGLE_TOKEN_URL;
+
 
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
@@ -94,9 +97,6 @@ public class AuthLoginService {
     @Value("${kakao.client-id}")
     private String KAKAO_CLIENT_ID;
 
-    @Value("${kakao.client-secret:}")
-    private String KAKAO_CLIENT_SECRET; // 시크릿 미사용이면 빈 문자열도 OK
-
     @Value("${kakao.redirect-uri}")
     private String KAKAO_REDIRECT_URI;
 
@@ -112,9 +112,6 @@ public class AuthLoginService {
         body.add("client_id", KAKAO_CLIENT_ID);
         body.add("redirect_uri", KAKAO_REDIRECT_URI);
         body.add("code", code);
-        if (KAKAO_CLIENT_SECRET != null && !KAKAO_CLIENT_SECRET.isBlank()) {
-            body.add("client_secret", KAKAO_CLIENT_SECRET);
-        }
 
         RestTemplate rt = new RestTemplate();
         ResponseEntity<String> res =
@@ -190,8 +187,4 @@ public class AuthLoginService {
 
         throw new RuntimeException("유저 정보를 가져오는데 실패했습니다.");
     }
-
-    public void logout() {
-
-        }
     }

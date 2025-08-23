@@ -29,7 +29,7 @@ public class AuthLoginController {
 
     private final AuthLoginService authLoginService;
 
-    @Value("${client-id}") private String googleClientId;
+    @Value("${oauth.google.client-id}") private String googleClientId;
     @Value("${oauth.google.redirect-uri:http://localhost:8080/login/oauth2/code/google}") private String googleRedirectUri;
     @Value("${kakao.client-id}") private String kakaoClientId;
     @Value("${kakao.redirect-uri}") private String kakaoRedirectUri;
