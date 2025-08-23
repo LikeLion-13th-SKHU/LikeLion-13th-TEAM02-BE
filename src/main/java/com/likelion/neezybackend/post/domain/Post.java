@@ -2,6 +2,7 @@ package com.likelion.neezybackend.post.domain;
 
 import com.likelion.neezybackend.member.domain.Member;
 import com.likelion.neezybackend.post.api.dto.request.PostUpdateRequestDto;
+import com.likelion.neezybackend.region.domain.Region;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,8 +28,9 @@ public class Post {
     private String contents;
 
     // 지역 필드 추가 (프론트에서 전달받아 저장)
-    @Column(nullable = false, length = 100)
-    private String region; // 예: "온수동", "강남구"
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
 
     // 카테고리 필드 추가 (Enum)
     @Enumerated(EnumType.STRING)
@@ -70,7 +72,7 @@ public class Post {
     }
 
     @Builder
-    private Post(String title, String contents, String region, Category category, Member member) {
+    private Post(String title, String contents, Region region, Category category, Member member) {
         this.title = title;
         this.contents = contents;
         this.region = region;

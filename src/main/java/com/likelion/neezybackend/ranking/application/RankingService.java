@@ -18,7 +18,7 @@ public class RankingService {
     private final PostRepository postRepository;
 
     public List<RankingResponseDto> getRankingByRegion(String region) {
-        var posts = postRepository.findAllByRegion(region);
+        var posts = postRepository.findAllByRegion_RegionName(region);
 
         // 카테고리별 count 집계
         Map<String, Long> counts = posts.stream()
