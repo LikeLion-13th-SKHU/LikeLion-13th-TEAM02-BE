@@ -65,7 +65,7 @@ public class ChatController {
     @PostMapping(value = "/chat",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<Object>> chat(@RequestBody Map<String, String> request) {
+    public Mono<ResponseEntity<String>> chat(@RequestBody Map<String, String> request) {
         String message = request.get("message");
         return chatService.sendMessageToUpstream(message);
     }
