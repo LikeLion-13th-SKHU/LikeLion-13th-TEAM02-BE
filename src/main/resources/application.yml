@@ -47,3 +47,8 @@ oauth:
 
 proxy:
   upstream-url: ${UPSTREAM_URL}
+
+swagger:
+  server:
+    url: ${SWAGGER_SERVER_URL}
+
