@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Map;
 
 @RestController
@@ -135,6 +136,9 @@ public class AuthLoginController {
     public ResponseEntity<Token> kakaoCallback(@RequestParam(name = "code") String code) {
         String kakaoAccessToken = authLoginService.getKakaoAccessToken(code);
         Token token = authLoginService.loginOrSignUpWithKakao(kakaoAccessToken);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("http://localhost:5173/main"));
         return ResponseEntity.ok(token);
     }
 

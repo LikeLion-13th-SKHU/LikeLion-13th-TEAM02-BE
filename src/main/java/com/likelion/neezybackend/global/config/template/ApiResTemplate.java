@@ -1,4 +1,4 @@
-package com.likelion.neezybackend.common.template;
+package com.likelion.neezybackend.global.config.template;
 
 import com.likelion.neezybackend.common.error.ErrorCode;
 import com.likelion.neezybackend.common.error.SuccessCode;
