@@ -27,25 +27,28 @@ public class ChatService {
             )));
         }
 
-        // 상류 요청 바디 구성
         Map<String, Object> proxyRequestBody = Map.of(
                 "messages", List.of(Map.of("role", "user", "content", message)),
                 "temperature", 0.7,
                 "max_context", 16
         );
 
-        // WebClient 요청
         return webClient.post()
                 .uri(upstreamUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(proxyRequestBody)
                 .retrieve()
-                .toEntity(Object.class)
-                .onErrorResume(err -> Mono.just(ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                        .body(Map.of(
-                                "error", "Bad Gateway",
-                                "message", "ChatBot API 호출 실패"
-                        ))));
+                // ★ 헤더는 버리고 바디만 가져옵니다.
+                .bodyToMono(String.class)
+                // ★ 우리가 ResponseEntity를 새로 만들어 반환
+                .map(body -> ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body((Object) body))
+                .onErrorResume(err -> Mono.just(
+                        ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body("{\"error\":\"Bad Gateway\",\"message\":\"ChatBot API 호출 실패\"}")
+                ));
     }
 }
