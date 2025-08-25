@@ -14,7 +14,7 @@ public record PostInfoResponseDto(
         String writer,
         String title,
         String contents,
-        Region region,
+        String region,
         Category category,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
@@ -26,7 +26,7 @@ public record PostInfoResponseDto(
                 .writer(post.getMember().getName())
                 .title(post.getTitle())
                 .contents(post.getContents())
-                .region(post.getRegion())
+                .region(post.getRegion().getRegionName())
                 .category(post.getCategory())
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())

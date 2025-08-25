@@ -3,11 +3,14 @@ package com.likelion.neezybackend.region.domain;
 import com.likelion.neezybackend.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "regions")
 @RequiredArgsConstructor
