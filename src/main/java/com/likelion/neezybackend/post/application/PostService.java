@@ -50,7 +50,7 @@ public class PostService {
 
     // 특정 지역 최신순 조회
     public PostListResponseDto findAllByRegionLatest(String regionName) {
-        var posts = postRepository.findAllByRegion_RegionNameOrderByCreatedAtDesc(regionName);
+        var posts = postRepository.findAllByRegion_RegionNameIgnoreCaseOrderByCreatedAtDesc(regionName);
         var items = posts.stream().map(PostInfoResponseDto::from).toList();
         return PostListResponseDto.from(items);
     }
