@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    List<Post> findAllByRegion_RegionNameOrderByCreatedAtDesc(String regionName);
+    List<Post> findAllByRegion_RegionNameIgnoreCaseOrderByCreatedAtDesc(String regionName);
 
     List<Post> findAllByRegion_RegionName(String regionName);
 
