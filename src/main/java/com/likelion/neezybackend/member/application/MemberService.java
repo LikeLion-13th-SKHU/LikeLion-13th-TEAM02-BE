@@ -50,12 +50,9 @@ public class MemberService {
                 .orElseThrow(IllegalArgumentException::new);
 
         if (dto.role() == null || dto.role() == Role.PENDING) {
-            throw new IllegalArgumentException("invalid role");
-        }
-        if (member.getRole() != Role.PENDING) {
-            throw new IllegalStateException("role already chosen");
+            throw new IllegalArgumentException("역할 선택은 필수입니다.");
         }
 
-        member.chooseRole(dto.role()); // 엔티티 메서드
+        member.chooseRole(dto.role());
     }
 }
