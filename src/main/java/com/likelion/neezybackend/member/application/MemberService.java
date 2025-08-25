@@ -43,7 +43,6 @@ public class MemberService {
         memberRepository.delete(member);
     }
 
-    // 온보딩: PENDING일 때 1회만 역할 선택
     @Transactional
     public void memberChooseRole(Long memberId, ChooseRoleRequestDto dto) {
         Member member = memberRepository.findById(memberId)
