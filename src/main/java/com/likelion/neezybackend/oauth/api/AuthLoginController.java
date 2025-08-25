@@ -138,7 +138,7 @@ public class AuthLoginController {
         Token token = authLoginService.loginOrSignUpWithKakao(kakaoAccessToken);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("http://localhost:5173/main"));
+        headers.setLocation(URI.create("https://www.neezy.store/main"));
         return ResponseEntity.ok(token);
     }
 
