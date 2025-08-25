@@ -33,56 +33,46 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                // ✅ CORS Spring Security에서 활성화
                 .cors(c -> c.configurationSource(corsConfigurationSource()))
-
                 .authorizeHttpRequests(auth -> auth
-                        // (선택) 프리플라이트 전역 허용
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
-                        // Swagger 경로 허용
-                        .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/v3/api-docs.yaml"
-                        ).permitAll()
-
-                        .requestMatchers("/login/oauth2/**").permitAll()
-                        .requestMatchers("/api/members/**", "/api/posts/**").permitAll()
-                        .requestMatchers("/api/rankings/**").permitAll()
-                        .requestMatchers("/api/chat/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs.yaml").permitAll()
+                        // ✅ 소셜로그인 진입/콜백 모두 허용
+                        .requestMatchers("/oauth2/authorization/**", "/login/oauth2/**").permitAll()
+                        .requestMatchers("/api/members/**", "/api/posts/**", "/api/rankings/**", "/api/chat/**").permitAll()
                         .anyRequest().authenticated()
                 )
+        ;
 
-                // JWT 필터
-                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
-
+        http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
-    // ✅ CORS 설정(화이트리스트)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration conf = new CorsConfiguration();
+
         conf.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "https://junyeong.store",
+                "https://neezy.store",
                 "https://www.neezy.store",
+                "https://junyeong.store",
+                "http://localhost:5173",
                 "http://localhost:8080"
         ));
-        conf.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+
+
+        conf.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
         conf.setAllowedHeaders(List.of(
-                "Authorization", "Content-Type", "Accept",
-                "X-Requested-With", "Cache-Control", "Pragma"
+                "Authorization","Content-Type","Accept","X-Requested-With","Cache-Control","Pragma","Origin"
         ));
-        conf.setAllowCredentials(true);   // 쿠키/Authorization 허용 시 반드시 특정 origin 사용
-        conf.setMaxAge(3600L);           // 프리플라이트 캐시(초)
+        conf.setAllowCredentials(true);  // 쿠키/Authorization 전송 허용
+        conf.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", conf);
         return source;
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
