@@ -7,6 +7,7 @@ import com.likelion.neezybackend.post.api.dto.response.PostInfoResponseDto;
 import com.likelion.neezybackend.post.api.dto.response.PostListResponseDto;
 import com.likelion.neezybackend.post.domain.Post;
 import com.likelion.neezybackend.post.domain.repository.PostRepository;
+import com.likelion.neezybackend.region.domain.Region;
 import com.likelion.neezybackend.region.domain.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,22 +25,28 @@ public class PostService {
     @Transactional
     public void postSave(Long memberId, PostSaveRequestDto dto) {
         var member = memberRepository.findById(memberId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다: " + memberId));
 
+        // 지역 조회 → 없으면 새로 생성 후 저장
         var region = regionRepository.findByRegionNameIgnoreCase(dto.regionName())
-                .orElseThrow(() -> new IllegalArgumentException("해당 지역을 찾을 수 없습니다: " + dto.regionName()));
-
+                .orElseGet(() -> {
+                    var newRegion = Region.builder()
+                            .regionName(dto.regionName())
+                            .build();
+                    return regionRepository.save(newRegion);
+                });
 
         var post = Post.builder()
                 .title(dto.title())
                 .contents(dto.contents())
-                .region(region)       // region 추가
-                .category(dto.category())      // category 추가
+                .region(region)
+                .category(dto.category())
                 .member(member)
                 .build();
 
         postRepository.save(post);
     }
+
 
     // 특정 지역 최신순 조회
     public PostListResponseDto findAllByRegionLatest(String regionName) {
